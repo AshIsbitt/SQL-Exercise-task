@@ -77,6 +77,7 @@ CREATE TABLE Spartans(
     UniCourse VARCHAR(40),
     --UniMark is expected as "1st", "2:1", "2:2", "3rd", "F"
     UniMark VARCHAR(3),
+    PRIMARY KEY (Title)
 )
 
 --2.2 Write SQL statements to add the details of the Spartans in your course to the table you have created.
@@ -133,8 +134,7 @@ WHERE YEAR(o.ShippedDate)=1998 ORDER BY [Net Price] DESC
 --3.4 Plot the Average Ship Time by month for all data in the Orders Table using a line chart as below. (10 Marks)
 SELECT * FROM Orders
 
---This gets the average length of each journey using the difference between the shipping and required dates,
--- and then compares it to the month of the shipingdate.
 --See the attached EXCEL Spreadsheet for the requested line chart
-SELECT MONTH(ShippedDate) AS 'ShipMonth', DATEDIFF(day, ShippedDate, RequiredDate) AS 'lengthOfJourney' FROM [Orders] 
-GROUP BY MONTH(ShippedDate), AVG(ShippedDate)
+--This query outputs the average length the journey by getting the distance between the shipping date and the required date
+SELECT CONCAT(MONTH(ShippedDate), ', ', YEAR(ShippedDate)) AS 'ShipMonth', AVG(DATEDIFF(day, ShippedDate, RequiredDate)) AS 'lengthOfJourney' 
+FROM [Orders] GROUP BY ShippedDate HAVING DAY(ShippedDate) = AVG(DATEDIFF(day, ShippedDate, RequiredDate))
